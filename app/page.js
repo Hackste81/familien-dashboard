@@ -52,10 +52,18 @@ export default function Home() {
             />
           </a>
 
-          <Card
-            title="✅ Aufgaben"
-            text="Gemeinsame Aufgaben organisieren"
-          />
+          <a
+            href="/aufgaben"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
+            <Card
+              title="✅ Aufgaben"
+              text="Gemeinsame Aufgaben organisieren"
+            />
+          </a>
 
           <Card
             title="🛒 Einkaufsliste"
@@ -81,6 +89,7 @@ function Card({ title, text }) {
         borderRadius: "16px",
         boxShadow: "0 4px 15px rgba(0,0,0,0.08)",
         minHeight: "120px",
+        boxSizing: "border-box",
       }}
     >
       <h2
@@ -101,7 +110,7 @@ function Card({ title, text }) {
         }}
       >
         {text}
-  </p>
+      </p>
     </div>
   );
-}
+} 
