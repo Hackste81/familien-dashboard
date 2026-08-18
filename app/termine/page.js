@@ -15,6 +15,7 @@ export default function TerminePage() {
   const [termine, setTermine] = useState([]);
   const [laden, setLaden] = useState(true);
   const [fehler, setFehler] = useState("");
+  const [bearbeitenId, setBearbeitenId] = useState(null);
 
   useEffect(() => {
     termineLaden();
@@ -40,7 +41,7 @@ export default function TerminePage() {
     setLaden(false);
   }
 
-  async function terminHinzufuegen(e) {
+  async function terminSpeichern(e) {
     e.preventDefault();
     setFehler("");
 
@@ -49,22 +50,78 @@ export default function TerminePage() {
       return;
     }
 
-    const { error } = await supabase.from("termine").insert([
-      {
-        titel,
-        datum,
-        uhrzeit: uhrzeit || null,
-      },
-    ]);
+    if (bearbeitenId) {
+      const { error } = await supabase
+        .from("termine")
+        .update({
+          titel,
+          datum,
+          uhrzeit: uhrzeit || null,
+        })
+        .eq("id", bearbeitenId);
 
-    if (error) {
-      setFehler("Der Termin konnte nicht gespeichert werden.");
-      return;
+      if (error) {
+        setFehler("Der Termin konnte nicht geändert werden.");
+        return;
+      }
+    } else {
+      const { error } = await supabase.from("termine").insert([
+        {
+          titel,
+          datum,
+          uhrzeit: uhrzeit || null,
+        },
+      ]);
+
+      if (error) {
+        setFehler("Der Termin konnte nicht gespeichert werden.");
+        return;
+      }
     }
 
+    formularLeeren();
+    await termineLaden();
+  }
+
+  function terminBearbeiten(termin) {
+    setTitel(termin.titel || "");
+    setDatum(termin.datum || "");
+    setUhrzeit(termin.uhrzeit ? termin.uhrzeit.slice(0, 5) : "");
+    setBearbeitenId(termin.id);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  function formularLeeren() {
     setTitel("");
     setDatum("");
     setUhrzeit("");
+    setBearbeitenId(null);
+  }
+
+  async function terminLoeschen(id) {
+    const bestaetigt = window.confirm(
+      "Möchtest du diesen Termin wirklich löschen?"
+    );
+
+    if (!bestaetigt) return;
+
+    const { error } = await supabase
+      .from("termine")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      setFehler("Der Termin konnte nicht gelöscht werden.");
+      return;
+    }
+
+    if (bearbeitenId === id) {
+      formularLeeren();
+    }
 
     await termineLaden();
   }
@@ -109,11 +166,11 @@ export default function TerminePage() {
             marginBottom: "30px",
           }}
         >
-          Hier könnt ihr eure Familientermine eintragen.
+          Hier könnt ihr eure Familientermine eintragen und verwalten.
         </p>
 
         <form
-          onSubmit={terminHinzufuegen}
+          onSubmit={terminSpeichern}
           style={{
             background: "white",
             padding: "24px",
@@ -122,7 +179,9 @@ export default function TerminePage() {
             marginBottom: "30px",
           }}
         >
-          <h2 style={{ marginTop: 0 }}>Neuer Termin</h2>
+          <h2 style={{ marginTop: 0 }}>
+            {bearbeitenId ? "Termin bearbeiten" : "Neuer Termin"}
+          </h2>
 
           <input
             type="text"
@@ -167,19 +226,43 @@ export default function TerminePage() {
             }}
           />
 
-          <button
-            type="submit"
+          <div
             style={{
-              padding: "12px 20px",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-              fontSize: "16px",
-              fontWeight: "bold",
+              display: "flex",
+              gap: "10px",
+              flexWrap: "wrap",
             }}
           >
-            Termin hinzufügen
-          </button>
+            <button
+              type="submit"
+              style={{
+                padding: "12px 20px",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+            >
+              {bearbeitenId ? "Änderungen speichern" : "Termin hinzufügen"}
+            </button>
+
+            {bearbeitenId && (
+              <button
+                type="button"
+                onClick={formularLeeren}
+                style={{
+                  padding: "12px 20px",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
+                Abbrechen
+              </button>
+            )}
+          </div>
 
           {fehler && (
             <p
@@ -219,10 +302,42 @@ export default function TerminePage() {
               >
                 <h3 style={{ marginTop: 0 }}>{termin.titel}</h3>
 
-                <p style={{ marginBottom: 0 }}>
+                <p>
                   📅 {termin.datum}
                   {termin.uhrzeit ? ` · 🕒 ${termin.uhrzeit.slice(0, 5)}` : ""}
                 </p>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <button
+                    onClick={() => terminBearbeiten(termin)}
+                    style={{
+                      padding: "8px 12px",
+                      border: "1px solid #ccc",
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Bearbeiten
+                  </button>
+
+                  <button
+                    onClick={() => terminLoeschen(termin.id)}
+                    style={{
+                      padding: "8px 12px",
+                      border: "1px solid #ccc",
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Löschen
+                  </button>
+                </div>
               </div>
             ))}
           </div>
