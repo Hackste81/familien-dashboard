@@ -39,41 +39,36 @@ export default function Home() {
             gap: "20px",
           }}
         >
-          <a
-            href="/termine"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
+          <a href="/termine" style={{ textDecoration: "none", color: "inherit" }}>
             <Card
               title="📅 Termine"
               text="Familientermine im Überblick"
             />
           </a>
 
-          <a
-            href="/aufgaben"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
+          <a href="/aufgaben" style={{ textDecoration: "none", color: "inherit" }}>
             <Card
               title="✅ Aufgaben"
               text="Gemeinsame Aufgaben organisieren"
             />
           </a>
 
-          <Card
-            title="🛒 Einkaufsliste"
-            text="Was wir noch brauchen"
-          />
+          <a
+            href="/einkaufsliste"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Card
+              title="🛒 Einkaufsliste"
+              text="Was wir noch brauchen"
+            />
+          </a>
 
-          <Card
-            title="📝 Notizen"
-            text="Wichtige Informationen festhalten"
-          />
+          <a href="/notizen" style={{ textDecoration: "none", color: "inherit" }}>
+            <Card
+              title="📝 Notizen"
+              text="Wichtige Informationen festhalten"
+            />
+          </a>
         </div>
       </div>
     </main>
