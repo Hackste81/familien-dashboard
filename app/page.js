@@ -29,8 +29,9 @@ export default function Home() {
             gap: "20px",
           }}
         >
-          <Card title="📅 Termine" text="Familientermine im Überblick" />
-          <Card title="✅ Aufgaben" text="Gemeinsame Aufgaben organisieren" />
+          <a href="/termine" style={{ textDecoration: "none", color: "inherit" }}>
+  <Karte Titel="📅 Termine" Text="Familientermine im Überblick" />
+</a> 
           <Card title="🛒 Einkaufsliste" text="Was wir noch brauchen" />
           <Card title="📝 Notizen" text="Wichtige Informationen festhalten" />
         </div>
