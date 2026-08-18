@@ -39,14 +39,26 @@ export default function Home() {
             gap: "20px",
           }}
         >
-          <a href="/termine" style={{ textDecoration: "none", color: "inherit" }}>
+          <a
+            href="/termine"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <Card
               title="📅 Termine"
               text="Familientermine im Überblick"
             />
           </a>
 
-          <a href="/aufgaben" style={{ textDecoration: "none", color: "inherit" }}>
+          <a
+            href="/aufgaben"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <Card
               title="✅ Aufgaben"
               text="Gemeinsame Aufgaben organisieren"
@@ -55,7 +67,10 @@ export default function Home() {
 
           <a
             href="/einkaufsliste"
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
           >
             <Card
               title="🛒 Einkaufsliste"
@@ -63,7 +78,13 @@ export default function Home() {
             />
           </a>
 
-          <a href="/notizen" style={{ textDecoration: "none", color: "inherit" }}>
+          <a
+            href="/notizen"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <Card
               title="📝 Notizen"
               text="Wichtige Informationen festhalten"
@@ -85,6 +106,7 @@ function Card({ title, text }) {
         boxShadow: "0 4px 15px rgba(0,0,0,0.08)",
         minHeight: "120px",
         boxSizing: "border-box",
+        cursor: "pointer",
       }}
     >
       <h2
@@ -108,4 +130,4 @@ function Card({ title, text }) {
       </p>
     </div>
   );
-} 
+}
