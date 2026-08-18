@@ -5,25 +5,29 @@ const bereiche = [
     href: "/termine",
     icon: "📅",
     title: "Termine",
-    text: "Familientermine im Überblick",
+    text: "Alle Familientermine auf einen Blick",
+    background: "#E8F1FF",
   },
   {
     href: "/aufgaben",
     icon: "✅",
     title: "Aufgaben",
-    text: "Gemeinsame Aufgaben organisieren",
+    text: "Gemeinsame Aufgaben verteilen und abhaken",
+    background: "#EAF8EF",
   },
   {
     href: "/einkaufsliste",
     icon: "🛒",
     title: "Einkaufsliste",
-    text: "Was wir noch brauchen",
+    text: "Was noch fehlt – jederzeit gemeinsam ergänzen",
+    background: "#FFF4E5",
   },
   {
     href: "/notizen",
     icon: "📝",
     title: "Notizen",
-    text: "Wichtige Informationen festhalten",
+    text: "Wichtige Infos für die ganze Familie",
+    background: "#F3ECFF",
   },
 ];
 
@@ -32,39 +36,52 @@ export default function Home() {
     <main
       style={{
         minHeight: "100vh",
-        background: "#f5f7fb",
-        fontFamily: "Arial, sans-serif",
-        padding: "clamp(24px, 5vw, 60px) 18px",
+        background:
+          "linear-gradient(180deg, #fffaf4 0%, #f7f8fb 45%, #f2f4f8 100%)",
+        fontFamily:
+          'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        padding: "clamp(24px, 5vw, 56px) 18px",
+        color: "#1f2937",
       }}
     >
       <div
         style={{
           width: "100%",
-          maxWidth: "1000px",
+          maxWidth: "1080px",
           margin: "0 auto",
         }}
       >
         <header
           style={{
-            marginBottom: "32px",
+            marginBottom: "34px",
+            background: "rgba(255,255,255,0.88)",
+            borderRadius: "24px",
+            padding: "28px",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+            border: "1px solid rgba(255,255,255,0.9)",
           }}
         >
           <div
             style={{
-              fontSize: "14px",
-              fontWeight: "bold",
-              color: "#666",
-              marginBottom: "8px",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              marginBottom: "10px",
+              fontSize: "15px",
+              fontWeight: 700,
+              color: "#6b7280",
             }}
           >
-            UNSERE FAMILIE
+            <span style={{ fontSize: "22px" }}>🏠</span>
+            UNSER FAMILIENBEREICH
           </div>
 
           <h1
             style={{
-              fontSize: "clamp(32px, 7vw, 48px)",
-              lineHeight: 1.1,
+              fontSize: "clamp(34px, 6vw, 52px)",
+              lineHeight: 1.05,
               margin: "0 0 12px 0",
+              letterSpacing: "-0.03em",
             }}
           >
             Familien Dashboard
@@ -72,22 +89,24 @@ export default function Home() {
 
           <p
             style={{
-              color: "#666",
-              fontSize: "17px",
-              lineHeight: 1.5,
+              color: "#6b7280",
+              fontSize: "18px",
+              lineHeight: 1.55,
               margin: 0,
+              maxWidth: "680px",
             }}
           >
-            Alles Wichtige für unsere Familie an einem Ort.
+            Termine, Aufgaben, Einkäufe und wichtige Infos – alles an einem Ort
+            und auf allen Geräten verfügbar.
           </p>
         </header>
 
-        <div
+        <section
           style={{
             display: "grid",
             gridTemplateColumns:
-              "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
-            gap: "18px",
+              "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
+            gap: "20px",
           }}
         >
           {bereiche.map((bereich) => (
@@ -97,28 +116,36 @@ export default function Home() {
               style={{
                 textDecoration: "none",
                 color: "inherit",
-                display: "block",
               }}
             >
-              <div
+              <article
                 style={{
-                  background: "white",
+                  background: bereich.background,
+                  borderRadius: "22px",
                   padding: "24px",
-                  borderRadius: "18px",
-                  boxShadow: "0 5px 20px rgba(0,0,0,0.07)",
-                  minHeight: "145px",
+                  minHeight: "190px",
                   boxSizing: "border-box",
-                  cursor: "pointer",
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+                  border: "1px solid rgba(255,255,255,0.8)",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                  cursor: "pointer",
                 }}
               >
                 <div>
                   <div
                     style={{
-                      fontSize: "32px",
-                      marginBottom: "14px",
+                      width: "54px",
+                      height: "54px",
+                      borderRadius: "16px",
+                      background: "rgba(255,255,255,0.75)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "28px",
+                      marginBottom: "18px",
                     }}
                   >
                     {bereich.icon}
@@ -127,7 +154,8 @@ export default function Home() {
                   <h2
                     style={{
                       margin: "0 0 8px 0",
-                      fontSize: "22px",
+                      fontSize: "24px",
+                      letterSpacing: "-0.02em",
                     }}
                   >
                     {bereich.title}
@@ -135,8 +163,9 @@ export default function Home() {
 
                   <p
                     style={{
-                      color: "#666",
                       margin: 0,
+                      color: "#5f6672",
+                      fontSize: "16px",
                       lineHeight: 1.5,
                     }}
                   >
@@ -146,28 +175,28 @@ export default function Home() {
 
                 <div
                   style={{
-                    marginTop: "18px",
-                    fontWeight: "bold",
-                    fontSize: "14px",
+                    marginTop: "22px",
+                    fontSize: "15px",
+                    fontWeight: 700,
                   }}
                 >
                   Öffnen →
                 </div>
-              </div>
+              </article>
             </Link>
           ))}
-        </div>
+        </section>
 
-        <p
+        <footer
           style={{
             textAlign: "center",
-            color: "#999",
+            marginTop: "34px",
+            color: "#9ca3af",
             fontSize: "13px",
-            marginTop: "40px",
           }}
         >
           Gemeinsam organisiert ❤️
-        </p>
+        </footer>
       </div>
     </main>
   );
