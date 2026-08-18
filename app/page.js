@@ -30,7 +30,7 @@ export default function Home() {
           }}
         >
           <a href="/termine" style={{ textDecoration: "none", color: "inherit" }}>
-  <Karte Titel="📅 Termine" Text="Familientermine im Überblick" />
+  <Card Titel="📅 Termine" Text="Familientermine im Überblick" />
 </a> 
           <Card title="🛒 Einkaufsliste" text="Was wir noch brauchen" />
           <Card title="📝 Notizen" text="Wichtige Informationen festhalten" />
