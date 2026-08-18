@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main
@@ -39,95 +41,76 @@ export default function Home() {
             gap: "20px",
           }}
         >
-          <a
+          <DashboardLink
             href="/termine"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <Card
-              title="📅 Termine"
-              text="Familientermine im Überblick"
-            />
-          </a>
+            title="📅 Termine"
+            text="Familientermine im Überblick"
+          />
 
-          <a
+          <DashboardLink
             href="/aufgaben"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <Card
-              title="✅ Aufgaben"
-              text="Gemeinsame Aufgaben organisieren"
-            />
-          </a>
+            title="✅ Aufgaben"
+            text="Gemeinsame Aufgaben organisieren"
+          />
 
-          <a
+          <DashboardLink
             href="/einkaufsliste"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <Card
-              title="🛒 Einkaufsliste"
-              text="Was wir noch brauchen"
-            />
-          </a>
+            title="🛒 Einkaufsliste"
+            text="Was wir noch brauchen"
+          />
 
-          <a
+          <DashboardLink
             href="/notizen"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <Card
-              title="📝 Notizen"
-              text="Wichtige Informationen festhalten"
-            />
-          </a>
+            title="📝 Notizen"
+            text="Wichtige Informationen festhalten"
+          />
         </div>
       </div>
     </main>
   );
 }
 
-function Card({ title, text }) {
+function DashboardLink({ href, title, text }) {
   return (
-    <div
+    <Link
+      href={href}
       style={{
-        background: "white",
-        padding: "24px",
-        borderRadius: "16px",
-        boxShadow: "0 4px 15px rgba(0,0,0,0.08)",
-        minHeight: "120px",
-        boxSizing: "border-box",
-        cursor: "pointer",
+        textDecoration: "none",
+        color: "inherit",
+        display: "block",
       }}
     >
-      <h2
+      <div
         style={{
-          marginTop: 0,
-          marginBottom: "12px",
-          fontSize: "22px",
+          background: "white",
+          padding: "24px",
+          borderRadius: "16px",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.08)",
+          minHeight: "120px",
+          boxSizing: "border-box",
+          cursor: "pointer",
         }}
       >
-        {title}
-      </h2>
+        <h2
+          style={{
+            marginTop: 0,
+            marginBottom: "12px",
+            fontSize: "22px",
+          }}
+        >
+          {title}
+        </h2>
 
-      <p
-        style={{
-          color: "#666",
-          margin: 0,
-          lineHeight: 1.5,
-        }}
-      >
-        {text}
-      </p>
-    </div>
+        <p
+          style={{
+            color: "#666",
+            margin: 0,
+            lineHeight: 1.5,
+          }}
+        >
+          {text}
+        </p>
+      </div>
+    </Link>
   );
 }
