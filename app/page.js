@@ -101,3 +101,7 @@ function Card({ title, text }) {
         }}
       >
         {text}
+  </p>
+    </div>
+  );
+}
