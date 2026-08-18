@@ -1,51 +1,72 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 export default function TerminePage() {
   const [titel, setTitel] = useState("");
   const [datum, setDatum] = useState("");
   const [uhrzeit, setUhrzeit] = useState("");
   const [termine, setTermine] = useState([]);
+  const [laden, setLaden] = useState(true);
+  const [fehler, setFehler] = useState("");
 
   useEffect(() => {
-    const gespeichert = localStorage.getItem("familien-termine");
-
-    if (gespeichert) {
-      setTermine(JSON.parse(gespeichert));
-    }
+    termineLaden();
   }, []);
 
-  function terminHinzufuegen(e) {
-    e.preventDefault();
+  async function termineLaden() {
+    setLaden(true);
+    setFehler("");
 
-    if (!titel || !datum) {
-      alert("Bitte mindestens einen Namen und ein Datum eingeben.");
+    const { data, error } = await supabase
+      .from("termine")
+      .select("*")
+      .order("datum", { ascending: true })
+      .order("uhrzeit", { ascending: true });
+
+    if (error) {
+      setFehler("Termine konnten nicht geladen werden.");
+      setLaden(false);
       return;
     }
 
-    const neuerTermin = {
-      id: Date.now(),
-      titel,
-      datum,
-      uhrzeit,
-    };
+    setTermine(data || []);
+    setLaden(false);
+  }
 
-    const neueListe = [...termine, neuerTermin];
+  async function terminHinzufuegen(e) {
+    e.preventDefault();
+    setFehler("");
 
-    setTermine(neueListe);
-    localStorage.setItem("familien-termine", JSON.stringify(neueListe));
+    if (!titel || !datum) {
+      setFehler("Bitte mindestens einen Titel und ein Datum eingeben.");
+      return;
+    }
+
+    const { error } = await supabase.from("termine").insert([
+      {
+        titel,
+        datum,
+        uhrzeit: uhrzeit || null,
+      },
+    ]);
+
+    if (error) {
+      setFehler("Der Termin konnte nicht gespeichert werden.");
+      return;
+    }
 
     setTitel("");
     setDatum("");
     setUhrzeit("");
-  }
 
-  function terminLoeschen(id) {
-    const neueListe = termine.filter((termin) => termin.id !== id);
-
-    setTermine(neueListe);
-    localStorage.setItem("familien-termine", JSON.stringify(neueListe));
+    await termineLaden();
   }
 
   return (
@@ -159,11 +180,25 @@ export default function TerminePage() {
           >
             Termin hinzufügen
           </button>
+
+          {fehler && (
+            <p
+              style={{
+                marginTop: "16px",
+                marginBottom: 0,
+                color: "#b00020",
+              }}
+            >
+              {fehler}
+            </p>
+          )}
         </form>
 
         <h2>Eure Termine</h2>
 
-        {termine.length === 0 ? (
+        {laden ? (
+          <p style={{ color: "#666" }}>Termine werden geladen…</p>
+        ) : termine.length === 0 ? (
           <p style={{ color: "#666" }}>Noch keine Termine eingetragen.</p>
         ) : (
           <div
@@ -184,22 +219,10 @@ export default function TerminePage() {
               >
                 <h3 style={{ marginTop: 0 }}>{termin.titel}</h3>
 
-                <p>
+                <p style={{ marginBottom: 0 }}>
                   📅 {termin.datum}
-                  {termin.uhrzeit ? ` · 🕒 ${termin.uhrzeit}` : ""}
+                  {termin.uhrzeit ? ` · 🕒 ${termin.uhrzeit.slice(0, 5)}` : ""}
                 </p>
-
-                <button
-                  onClick={() => terminLoeschen(termin.id)}
-                  style={{
-                    padding: "8px 12px",
-                    border: "1px solid #ccc",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Löschen
-                </button>
               </div>
             ))}
           </div>
@@ -207,4 +230,4 @@ export default function TerminePage() {
       </div>
     </main>
   );
-} 
+}
