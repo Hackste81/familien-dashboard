@@ -168,6 +168,23 @@ export default function TerminePage() {
         >
           Hier könnt ihr eure Familientermine eintragen und verwalten.
         </p>
+            <a
+  href="/api/google/login"
+  style={{
+    display: "inline-block",
+    marginBottom: "24px",
+    padding: "12px 18px",
+    background: "#fff",
+    border: "1px solid #ccc",
+    borderRadius: "10px",
+    color: "#111",
+    textDecoration: "none",
+    fontWeight: "600",
+  }}
+>
+  📅 Google Kalender verbinden
+</a>
+
 
         <form
           onSubmit={terminSpeichern}
